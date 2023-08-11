@@ -47,6 +47,10 @@ ifeq ($(WITH_LUA),yes)
 	OTR_OBJS += hooks.o
 endif
 
+ifeq ($(WITH_TIMER),yes)
+	CFLAGS += -DWITH_TIMER=1
+endif
+
 ifeq ($(WITH_ENCRYPT),yes)
 	CFLAGS += -DWITH_ENCRYPT=1 $(SODIUM_CFLAGS)
 	LIBS   += $(SODIUM_LIBS)

@@ -2128,6 +2128,9 @@ int main(int argc, char **argv)
 #endif
 
 	while (run) {
+#if WITH_TIMER
+		http_pollms = hooks_timer(ud);
+#endif
 #ifdef WITH_MQTT
 		if (ud->port != 0) {
 #if WITH_HTTP
@@ -2142,7 +2145,9 @@ int main(int argc, char **argv)
 			}
 		} else {
 #if WITH_HTTP
+#if !WITH_TIMER
 			http_pollms = 10000;
+#endif
 #endif
 		}
 #endif
