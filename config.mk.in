@@ -48,6 +48,9 @@ WITH_TOURS ?= yes
 # Do you have Lua libraries installed and want the Lua hook integration?
 WITH_LUA ?= no
 
+# Do you want support for the Lua timer hook.
+WITH_TIMER ?= yes
+
 # Do you want support for the `pingping' monitoring feature?
 WITH_PING ?= yes
 

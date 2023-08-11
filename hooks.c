@@ -613,4 +613,38 @@ int otr_publish(lua_State *lua)
 }
 #endif
 
+#ifdef WITH_TIMER
+
+/*
+ * For now: called every 1s.
+ *
+ * Should find the timer with the shortest time and return that or
+ * the default of 10s. We can then use this for the poll time
+ */
+int hooks_timer(struct udata *ud)
+{
+	struct luadata *ld = ud->luadata;
+	int interval = 1000;
+	lua_getglobal(ld->L, "otr_timer");
+	if (lua_type(ld->L, -1) == LUA_TFUNCTION) {
+		if (lua_pcall(ld->L, 0, 1, 0) != 0) {
+			olog(LOG_NOTICE, "otr_timer error: %s\n", lua_tostring(ld->L, -1));
+		} else {
+			if (lua_isnumber(ld->L, -1)) {
+				interval = lua_tonumber(ld->L, -1);
+				lua_pop(ld->L, -1);
+				if (interval < 100) {
+					interval = 100;
+				}
+				if (interval > 10000) {
+					interval = 10000;
+				}
+			}
+		}
+	}
+	return interval;
+}
+
+#endif
+
 #endif /* WITH_LUA */
