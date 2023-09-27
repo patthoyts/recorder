@@ -125,6 +125,12 @@ The name of the Lua function defaults to `otr_revgeo` but can be modified/set on
 {"_type":"location","lat":48.85833,"lon":3.29513,"tid":"JJ","_lua":"geo2","tst":1495018728}
 ```
 
+## `otr_timer`
+
+If the user-defined `otr_timer()` function exists in the Lua script it is invoked by the Recorder at regular intervals. This allows the hook script to perform processing without requiring data to have been received to perform on-going maintenance tasks.
+
+The function is invoked with no arguments and should return an interval in milliseconds. The next call may occur earlier than this if data is received as this value is used for the timeout of the event loop. So the interval value is only a maximum amount of time before the next call to the hook. To perform tasks at specific intervals the script should use an alternative real-time source such as `os.time()`. The interval is restricted to at least 1s and not more than 10s.
+
 ## Hooklets
 
 After running `otr_hook()`, the Recorder attempts to invoke a Lua function for each of the elements in the extended JSON. If, say, your Lua script contains a function called `hooklet_lat`, it will be invoked every time a `lat` is received as part of the JSON payload. Similarly with `hooklet_addr`, `hooklet_cc`, `hooklet_tst`, etc. These _hooklets_ are invoked with the same parameters as `otr_hook()`.
