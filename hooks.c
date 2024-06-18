@@ -98,6 +98,11 @@ struct luadata *hooks_init(struct udata *ud, char *script)
 		lua_pushstring(ld->L, VERSION);
 		lua_setfield(ld->L, -2, "version");
 
+#ifdef WITH_TOURS
+		lua_pushstring(ld->L, ud->http_prefix);
+		lua_setfield(ld->L, -2, "http_prefix");
+#endif
+
 		// lua_pushstring(ld->L, "/Users/jpm/Auto/projects/on-github/owntracks/recorder/lua");
 		// lua_setfield(ld->L, -2, "luapath");
 
