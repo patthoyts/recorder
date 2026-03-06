@@ -9,8 +9,10 @@ make install DESTDIR=$tempdir
 install -D -m644 README.md $tempdir/usr/share/doc/ot-recorder/README.md
 install -D -m644 etc/ot-recorder.service $tempdir/etc/systemd/system/ot-recorder.service
 
+. /etc/os-release
+
 name="ot-recorder"
-version="$(awk 'NR==1 {print $NF;}' version.h | sed -e 's/"//g' )-0-deb"
+version="$(awk 'NR==1 {print $NF;}' version.h | sed -e 's/"//g' )-0-ubu${VERSION_ID}"
 arch=$(uname -m)
 
 case $arch in
